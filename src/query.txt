@@ -48,8 +48,16 @@ from reviews r
 where rating >= 2 and rating <=4;
 
 -- 9- Selezionare tutti i dati dei videogiochi rilasciati nell'anno 2020 (46)
+select *
+from videogames v
+where year(release_date) = 2020;
+-- (46)
 
--- 10- Selezionare gli id dei videogame che hanno ricevuto almeno una recensione da stelle, mostrandoli una sola volta (443)
+-- 10- Selezionare gli id dei videogame che hanno ricevuto almeno una recensione da 5 stelle, mostrandoli una sola volta (443)
+select distinct videogame_id
+from reviews r
+where rating = 5;
+-- (443)
 
 -- *********** BONUS ***********
 
@@ -80,10 +88,22 @@ group by pegi_label_id;
 -- (13)
 
 -- 4- Mostrare il numero di videogiochi rilasciati ogni anno (11)
+select year(release_date) , count(id)
+from videogames v
+group by year(release_date);
+-- (11)
 
 -- 5- Contare quanti videogiochi sono disponbiili per ciascun device (del device vogliamo solo l'ID) (7)
+select device_id , count(videogame_id)
+from device_videogame dv
+group by device_id;
+-- (7)
 
 -- 6- Ordinare i videogame in base alla media delle recensioni (del videogioco vogliamo solo l'ID) (500)
+select videogame_id, avg(rating) as media_voto
+from reviews r
+group by videogame_id;
+-- (500)
 
 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -138,7 +158,14 @@ where r.rating >= 4 and r.rating <=5;
 -- (3363)
 
 -- 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
-
+select distinct v.id, v.name
+from videogames v
+join tournament_videogame tv on v.id = tv.videogame_id
+join tournaments t on t.id = tv.tournament_id
+join player_tournament pt on pt.tournament_id = t.id
+join players p on p.id = pt.player_id
+where p.name like 'S%';
+-- (474)
 
 -- 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
 
