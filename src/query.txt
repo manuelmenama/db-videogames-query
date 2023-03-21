@@ -62,8 +62,16 @@ where rating = 5;
 -- *********** BONUS ***********
 
 -- 11- Selezionare il numero e la media delle recensioni per il videogioco con ID = 412 (review number = 12, avg_rating = 3.16 circa)
+select count(id), avg(rating)
+from reviews r
+where videogame_id = 412;
+-- (count = 12, avg =3,1667)
 
 -- 12- Selezionare il numero di videogame che la software house con ID = 1 ha rilasciato nel 2018 (13)
+select count(id)
+from videogames v
+where software_house_id = 1 and year(release_date) = 2018;
+-- (13)
 
 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -192,8 +200,13 @@ where a.id = 5 and av.`year` = 2018 and t.`year` = 2019;
 -- *********** BONUS ***********
 
 -- 10- Selezionare i dati della prima software house che ha rilasciato un gioco, assieme ai dati del gioco stesso (software house id : 5)
+select distinct v.software_house_id, v.release_date
+from videogames v
+order by release_date
+limit 1;
 
 -- 11- Selezionare i dati del videogame (id, name, release_date, totale recensioni) con più recensioni (videogame id : potrebbe uscire 449 o 398, sono entrambi a 20)
+
 
 -- 12- Selezionare la software house che ha vinto più premi tra il 2015 e il 2016 (software house id : potrebbe uscire 3 o 1, sono entrambi a 3)
 
