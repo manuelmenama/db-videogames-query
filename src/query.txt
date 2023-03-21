@@ -62,10 +62,22 @@ where rating >= 2 and rating <=4;
 -- GROUP BY
 
 -- 1- Contare quante software house ci sono per ogni paese (3)
+select country , count(id)
+from software_houses sh
+group by country;
+-- (3)
 
 -- 2- Contare quante recensioni ha ricevuto ogni videogioco (del videogioco vogliamo solo l'ID) (500)
+select distinct videogame_id , count(videogame_id) as number_of_reviews
+from reviews r
+group by videogame_id;
+-- (500)
 
 -- 3- Contare quanti videogiochi hanno ciascuna classificazione PEGI (della classificazione PEGI vogliamo solo l'ID) (13)
+select distinct pegi_label_id, count(videogame_id) as number_of_videogames
+from pegi_label_videogame plv
+group by pegi_label_id;
+-- (13)
 
 -- 4- Mostrare il numero di videogiochi rilasciati ogni anno (11)
 
