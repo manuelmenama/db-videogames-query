@@ -90,18 +90,55 @@ group by pegi_label_id;
 -- JOIN
 
 -- 1- Selezionare i dati di tutti giocatori che hanno scritto almeno una recensione, mostrandoli una sola volta (996)
+select p.*
+from reviews r
+join players p on p.id = r.player_id
+group by p.id;
+-- (996)
 
 -- 2- Sezionare tutti i videogame dei tornei tenuti nel 2016, mostrandoli una sola volta (226)
+select distinct v.*
+from tournaments t
+join tournament_videogame tv
+join videogames v on v.id = tv.videogame_id and t.`year` = 2016
+where year(v.release_date) <= 2016;
+-- (226)
 
 -- 3- Mostrare le categorie di ogni videogioco (1718)
+select v.name as videogame_name, c.name as category_name
+from categories c
+join category_videogame cv on cv.category_id = c.id
+join videogames v on cv.videogame_id = v.id;
+-- (1718)
 
 -- 4- Selezionare i dati di tutte le software house che hanno rilasciato almeno un gioco dopo il 2020, mostrandoli una sola volta (6)
+select distinct sh.name as software_houses_name
+from software_houses sh
+join videogames v on v.software_house_id = sh.id
+where year(v.release_date) >= 2020;
+-- (6)
 
 -- 5- Selezionare i premi ricevuti da ogni software house per i videogiochi che ha prodotto (55)
+select sh.name as software_houses_name, v.name as videogame_name, a.name as award_name, av.`year`
+from software_houses sh
+join videogames v on sh.id = v.software_house_id
+join award_videogame av on v.id = av.videogame_id
+join awards a on av.award_id = a.id;
+-- (55)
 
 -- 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
+select distinct v.id, c.name, pl.name
+from videogames v
+join category_videogame cv ON v.id = cv.videogame_id
+join categories c on c.id = cv.category_id
+join pegi_label_videogame plv ON v.id = plv.videogame_id
+join pegi_labels pl on pl.id = plv.pegi_label_id
+join reviews r on r.videogame_id = v.id
+where r.rating >= 4 and r.rating <=5;
+-- (3363)
 
 -- 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
+
 
 -- 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
 
