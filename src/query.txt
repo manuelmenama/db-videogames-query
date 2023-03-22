@@ -230,9 +230,11 @@ limit 1;
 select c.id , c.name, avg(r.rating)
 from categories c
 join category_videogame cv on cv.category_id = c.id
-join videogames v on v.id = cv.videogame_id
-join reviews r on r.videogame_id = v.id
-where 1.5 < (select avg(r2.rating)
-from reviews r2)
+join (select v.id
+from videogames v
+join reviews r2 on r2.videogame_id = v.id
+group by v.id
+having avg(r2.rating) < 1.5) as res
+join reviews r on r.videogame_id = res.id
 group by c.id;
--- (??????????)
+-- (10)
